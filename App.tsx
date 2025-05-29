@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   ScrollView,
@@ -14,6 +14,7 @@ import {
   Text,
   useColorScheme,
   View,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -56,6 +57,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const [isRunning, setIsRunning] = useState(false);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -72,16 +74,23 @@ function App(): React.JSX.Element {
    */
   const safePadding = '5%';
 
+  const handleRun = () => {
+    setIsRunning(true);
+    // Thêm logic chạy ứng dụng ở đây
+    setTimeout(() => {
+      setIsRunning(false);
+    }, 2000);
+  };
+
   return (
     <View style={backgroundStyle}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        style={backgroundStyle}>
+      <ScrollView style={backgroundStyle}>
         <View style={{paddingRight: safePadding}}>
-          <Header/>
+          <Header />
         </View>
         <View
           style={{
@@ -89,9 +98,9 @@ function App(): React.JSX.Element {
             paddingHorizontal: safePadding,
             paddingBottom: safePadding,
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
+          <Section title="Bước Một">
+            Chỉnh sửa <Text style={styles.highlight}>App.tsx</Text> để thay đổi màn hình này
+            và quay lại để xem các thay đổi của bạn.
           </Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
@@ -103,6 +112,16 @@ function App(): React.JSX.Element {
             Read the docs to discover what to do next:
           </Section>
           <LearnMoreLinks />
+          
+          <TouchableOpacity 
+            style={[styles.runButton, isRunning && styles.runningButton]} 
+            onPress={handleRun}
+            disabled={isRunning}
+          >
+            <Text style={styles.runButtonText}>
+              {isRunning ? 'Đang chạy...' : 'Chạy'}
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
@@ -125,6 +144,21 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  runButton: {
+    backgroundColor: '#2196F3',
+    padding: 15,
+    borderRadius: 8,
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  runningButton: {
+    backgroundColor: '#4CAF50',
+  },
+  runButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 
