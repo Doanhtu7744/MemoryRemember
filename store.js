@@ -1,4 +1,6 @@
 import { create } from 'zustand';
+import { database } from './firebaseConfig';
+import { ref, set as databaseSet, push } from 'firebase/database';
 
 const useGameStore = create((set) => ({
     playerName: '',
@@ -17,15 +19,15 @@ const useGameStore = create((set) => ({
   endGame: () => set({ isGameOver: true }),
   resetScore: () => set({ score: 0 }),
 
-//   addToScoreBoard: (playerName, score) => {
-//     const scoreRef = ref(database, `scores/${playerName}`);
-//     const newScoreRef = push(scoreRef);
-//     databaseSet(newScoreRef, {
-//       player: playerName,
-//       score: score,
-//       timestamp: Date.now(),
-//     });
-//   },
+  addToScoreBoard: (playerName, score) => {
+    const scoreRef = ref(database, `scores/${playerName}`);
+    const newScoreRef = push(scoreRef);
+    databaseSet(newScoreRef, {
+      player: playerName,
+      score: score,
+      timestamp: Date.now(),
+    });
+  },
 }));
 
 export default useGameStore;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import {
-  View,
+  //View,
   Text,
   StyleSheet,
   TouchableOpacity,
@@ -54,7 +54,7 @@ export default function StartScreen({ navigation }) {
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [centerImageAnim, numberAnim, setPreviousNumber, titleAnim]);
 
   const handlePlayPress = () => {
   
